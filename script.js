@@ -159,4 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
         });
     });
+
+    // Custom Project Card Animation (Intersection Observer)
+    // Disabled for Sticky Stack Layout
+    /*
+    const projectCards = document.querySelectorAll('.project-card');
+    ...
+    */
 });
