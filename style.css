@@ -152,11 +152,59 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Center content horizontally */
     position: relative;
     padding-top: 180px;
-    padding-bottom: 80px;
+    padding-bottom: 160px;
+    /* Increased to prevent overlap with scroll indicator */
     box-sizing: border-box;
+    overflow: hidden;
+    /* Ensure image doesn't overflow */
+}
+
+.hero-image-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* Align to right for desktop animation default */
+    left: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    /* Base mask for blending the edge softly in addition to the zig zag */
+    mask-image: linear-gradient(to right, transparent, black 15%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
+}
+
+.hero-image-overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    filter: grayscale(100%) contrast(150%) brightness(0.7);
+    /* Silhouette Effect */
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+    /* Ensure text is above image */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    /* Align text left */
+}
+
+/* Constrain text on desktop so it doesn't hit the image */
+@media (min-width: 769px) {
+    .hero-section .container {
+        max-width: 60%;
+        /* Leave space for 40% image */
+        margin-left: 10%;
+        /* Offset slightly from left edge */
+    }
 }
 
 .hero-title {
@@ -194,8 +242,10 @@ h4 {
 .scroll-indicator {
     position: absolute;
     bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 10%;
+    /* Align with container margin */
+    transform: none;
+    /* Remove center transform */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -290,7 +340,8 @@ h4 {
     position: sticky;
     top: 100px;
     /* Stick below navbar */
-    height: 90vh;
+    height: 80vh;
+    /* Reduced height to ensure full visibility below 100px top */
     /* Almost full screen */
     background: var(--bg-color);
     /* Solid background to cover previous */
@@ -379,29 +430,37 @@ h4 {
 /* Mobile Responsive */
 @media (max-width: 900px) {
     .project-card {
-        flex-direction: column;
-        /* Stack normally */
+        flex-direction: column-reverse;
+        /* Image Top, Content Bottom */
         height: auto;
-        min-height: auto;
-        position: relative;
-        /* Disable sticky on mobile usually better for space? sticky can work but tricky */
-        top: 0;
-        margin-bottom: 60px;
+        min-height: 85vh;
+        /* Ensure it takes up most of screen */
+        position: sticky;
+        /* Enable sticky on mobile too */
+        top: 80px;
+        /* Adjust for mobile nav */
+        margin-bottom: 20px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
     }
 
     .project-image {
         width: 100%;
-        height: 300px;
+        height: 40vh;
+        /* Assign height for image part */
     }
 
     .project-content {
         width: 100%;
+        height: auto;
+        min-height: 40vh;
+        /* Remaining height */
         border-right: none;
-        padding: 40px 20px;
+        border-top: 1px solid var(--border-color);
+        padding: 30px 20px;
     }
 
     .project-content h3 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 }
 
@@ -575,4 +634,218 @@ h4 {
     font-size: 0.8rem;
 }
 
-/* Responsive */
+/* Tech Stack Icons */
+.tech-icon {
+    width: 24px;
+    /* Reduced from 40px */
+    height: 24px;
+    fill: currentColor;
+    color: var(--secondary-text);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.tech-icon:hover {
+    color: var(--text-color);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.tech-icon.small {
+    width: 16px;
+    /* Reduced from 24px */
+    height: 16px;
+}
+
+/* Hero background icons */
+.hero-tech-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.hero-icon {
+    position: absolute;
+    width: 32px;
+    /* Reduced from 60px */
+    height: 32px;
+    opacity: 0.05;
+    /* Very subtle */
+    color: var(--text-color);
+}
+
+/* Brand Colors */
+.brand-flutter {
+    color: #40C4FF !important;
+    opacity: 1;
+}
+
+.brand-dart {
+    color: #00B4AB !important;
+    opacity: 1;
+}
+
+.brand-firebase {
+    color: #FFCA28 !important;
+    opacity: 1;
+}
+
+.brand-python {
+    color: #FFD43B !important;
+    opacity: 1;
+}
+
+.brand-node {
+    color: #68A063 !important;
+    opacity: 1;
+}
+
+.brand-figma {
+    color: #A259FF !important;
+    opacity: 1;
+}
+
+.brand-git {
+    color: #F05032 !important;
+    opacity: 1;
+}
+
+.brand-swift {
+    color: #F05138 !important;
+    opacity: 1;
+}
+
+.brand-react {
+    color: #61DAFB !important;
+    opacity: 1;
+}
+
+.brand-docker {
+    color: #2496ED !important;
+    opacity: 1;
+}
+
+.brand-ai {
+    color: #00E676 !important;
+    opacity: 1;
+}
+
+/* Emerald */
+.brand-charts {
+    color: #FF4081 !important;
+    opacity: 1;
+}
+
+/* Pink */
+
+/* Hero background icons - Keep subtle but tinted */
+.hero-icon.brand-flutter {
+    opacity: 0.1;
+}
+
+.hero-icon.brand-firebase {
+    opacity: 0.1;
+}
+
+.hero-icon.brand-react {
+    opacity: 0.1;
+}
+
+.hero-icon.brand-docker {
+    opacity: 0.1;
+}
+
+/* Skills Section */
+.skills-section {
+    background: var(--bg-color);
+    padding: var(--section-padding);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.skill-group h3 {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    color: var(--secondary-text);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.skill-icons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.skill-item {
+    background: var(--card-bg);
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    /* Pill shape for icon + text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.skill-item:hover {
+    border-color: var(--text-color);
+}
+
+.skill-name {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    font-weight: 500;
+}
+
+.skill-item:hover .skill-name {
+    color: var(--text-color);
+}
+
+/* Project Cards Icon Row */
+.project-tech-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.project-tech-row .tech-icon {
+    width: 28px;
+    height: 28px;
+    opacity: 0.7;
+}
+
+/* Section Separator */
+.section-separator {
+    height: 1px;
+    background: var(--border-color);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    opacity: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.separator-track {
+    background: var(--bg-color);
+    padding: 0 20px;
+    display: flex;
+    gap: 20px;
+    color: var(--secondary-text);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+}
