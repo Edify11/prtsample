@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Projects
-    gsap.utils.toArray('.project-item').forEach(item => {
+    gsap.utils.toArray('.project-card').forEach(item => {
         gsap.from(item, {
             scrollTrigger: {
                 trigger: item,
