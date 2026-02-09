@@ -3,13 +3,15 @@
     --text-color: #f0f0f0;
     --accent-color: #3b82f6;
     /* Subtle blue for interactive elements */
-    --secondary-text: #888888;
+    --secondary-text: #a0a0a0;
+    /* Increased contrast from #888 */
     --border-color: #222222;
     --card-bg: #111111;
     --font-heading: 'Oswald', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
     --container-width: 1200px;
-    --section-padding: 120px 0;
+    --section-padding: 140px 0;
+    /* Increased from 120px for better breathing room */
 }
 
 * {
@@ -33,6 +35,8 @@ body {
     transition: opacity 0.5s ease;
     cursor: none;
     /* Hide default cursor for custom one */
+    position: relative;
+    /* Context for absolute positioning of background icons */
 }
 
 body.loading {
@@ -59,6 +63,50 @@ a {
     transition: color 0.3s ease;
 }
 
+.mobile-nav-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Global Floating Icons */
+.global-floating-icons {
+    position: absolute;
+    /* Scroll with page */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-icon {
+    position: absolute;
+    width: 30px;
+    /* Decreased to half size */
+    height: 30px;
+    opacity: 0.04 !important;
+    /* Force barely visible opacity, overriding .brand-* classes */
+    color: var(--text-color);
+    animation: float 8s ease-in-out infinite;
+    /* Slower, more relaxed */
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
 ul {
     list-style: none;
 }
@@ -77,7 +125,19 @@ h4 {
     font-family: var(--font-heading);
     text-transform: uppercase;
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 1.2;
+    /* Tightened from 1.3 */
+    margin-bottom: 1.5rem;
+    /* Added default margin */
+}
+
+p {
+    font-size: 1.1rem;
+    /* Slightly larger base text */
+    line-height: 1.7;
+    /* Improved readability */
+    color: var(--secondary-text);
+    /* Consistency */
 }
 
 .section-label {
@@ -97,10 +157,13 @@ h4 {
     width: 100%;
     padding: 20px 0;
     /* Remove side padding, let container handle it */
-    z-index: 1000;
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 2005;
+    /* Higher than mobile overlay (2000) */
+    background: rgba(10, 10, 10, 0.9);
+    /* Slightly darker for better text contrast */
+    backdrop-filter: blur(12px);
+    /* Increased blur */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .nav-container {
@@ -146,6 +209,26 @@ h4 {
     color: var(--bg-color) !important;
 }
 
+/* Add active/hover indicator for links */
+.nav-links a {
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--text-color);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
@@ -154,8 +237,9 @@ h4 {
     justify-content: center;
     position: relative;
     padding-top: 180px;
+    /* Restored safe padding */
     padding-bottom: 160px;
-    /* Increased to prevent overlap with scroll indicator */
+    /* Restored safe padding */
     box-sizing: border-box;
     overflow: hidden;
     /* Ensure image doesn't overflow */
@@ -171,18 +255,19 @@ h4 {
     height: 100%;
     z-index: 1;
     pointer-events: none;
-    /* Base mask for blending the edge softly in addition to the zig zag */
-    mask-image: linear-gradient(to right, transparent, black 15%);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
+    /* Base mask for blending the edge softly */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%);
+    mask-image: linear-gradient(to right, transparent, black 20%);
 }
 
 .hero-image-overlay img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 1;
-    filter: grayscale(100%) contrast(150%) brightness(0.7);
-    /* Silhouette Effect */
+    opacity: 0.6;
+    /* Reduced opacity for better text contrast */
+    filter: grayscale(100%) contrast(120%) brightness(0.6);
+    /* Darker, moody */
 }
 
 .hero-section .container {
@@ -200,10 +285,10 @@ h4 {
 /* Constrain text on desktop so it doesn't hit the image */
 @media (min-width: 769px) {
     .hero-section .container {
-        max-width: 60%;
-        /* Leave space for 40% image */
-        margin-left: 10%;
-        /* Offset slightly from left edge */
+        max-width: 65%;
+        /* Relaxed constraint */
+        margin-left: 5%;
+        /* Reduced offset */
     }
 }
 
@@ -217,10 +302,13 @@ h4 {
 }
 
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    /* Slightly larger */
+    line-height: 1.6;
     color: var(--secondary-text);
-    max-width: 500px;
-    margin-bottom: 3rem;
+    max-width: 550px;
+    /* Increased max width */
+    margin-bottom: 3.5rem;
 }
 
 .btn-primary {
@@ -259,6 +347,30 @@ h4 {
     background: var(--text-color);
 }
 
+/* Section Separator - Subtle */
+.section-separator {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    opacity: 0.5;
+    margin: 0;
+    /* Removing margin to rely on padding */
+}
+
+.separator-track {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: var(--bg-color);
+    /* Mask line behind dots */
+    width: fit-content;
+    margin: -10px auto 0;
+    /* Center vertically on line */
+    padding: 0 20px;
+    color: var(--border-color);
+    font-size: 0.8rem;
+}
+
 /* Sections */
 .about-section,
 .services-section,
@@ -267,17 +379,21 @@ h4 {
 .testimonials-section,
 .cta-section,
 .contact-section {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 .section-header {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+    /* Increased spacing */
 }
 
 .section-header h2 {
-    font-size: 3rem;
+    font-size: 3.5rem;
+    /* Larger, more impact */
     line-height: 1.1;
+    margin-bottom: 0;
+    /* Reset */
 }
 
 /* About */
@@ -411,6 +527,14 @@ h4 {
     z-index: 2;
     box-sizing: border-box;
     /* Crucial for padding */
+}
+
+.project-tech-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Consistent gap */
+    margin-bottom: 12px;
 }
 
 .project-content h3 {
@@ -619,6 +743,8 @@ h4 {
 .form-group textarea:focus {
     outline: none;
     border-bottom-color: var(--text-color);
+    background: linear-gradient(to bottom, transparent 95%, rgba(255, 255, 255, 0.05) 100%);
+    /* Subtle feedback */
 }
 
 .btn-submit {
@@ -641,8 +767,10 @@ h4 {
 
 /* Footer */
 .main-footer {
-    padding: 60px 0;
+    padding: 80px 0;
+    /* More breathing room */
     border-top: 1px solid var(--border-color);
+    background: var(--bg-color);
 }
 
 .footer-content {
@@ -674,12 +802,13 @@ h4 {
 
 /* Tech Stack Icons */
 .tech-icon {
-    width: 24px;
-    /* Reduced from 40px */
-    height: 24px;
+    width: 28px;
+    /* Slightly larger for visibility */
+    height: 28px;
     fill: currentColor;
     color: var(--secondary-text);
-    opacity: 0.5;
+    opacity: 0.7;
+    /* Increased base opacity */
     transition: all 0.3s ease;
 }
 
@@ -690,9 +819,9 @@ h4 {
 }
 
 .tech-icon.small {
-    width: 16px;
-    /* Reduced from 24px */
-    height: 16px;
+    width: 20px;
+    /* Readable size */
+    height: 20px;
 }
 
 /* Hero background icons */
@@ -709,10 +838,10 @@ h4 {
 
 .hero-icon {
     position: absolute;
-    width: 32px;
-    /* Reduced from 60px */
-    height: 32px;
-    opacity: 0.05;
+    width: 40px;
+    /* Distinct but subtle */
+    height: 40px;
+    opacity: 0.08;
     /* Very subtle */
     color: var(--text-color);
 }
@@ -738,8 +867,9 @@ h4 {
     opacity: 1;
 }
 
-.brand-node {
-    color: #68A063 !important;
+.brand-supabase {
+    color: #3ECF8E !important;
+    /* Supabase Green */
     opacity: 1;
 }
 

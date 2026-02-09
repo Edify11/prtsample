@@ -205,6 +205,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Contact Form Handling (FormSubmit.co AJAX)
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.btn-submit');
+            const originalText = submitBtn.innerText;
+
+            // Loading State
+            submitBtn.innerText = 'Sending...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+
+            const formData = new FormData(contactForm);
+
+            fetch('https://formsubmit.co/ajax/nithishattuluri2006@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Success State
+                    submitBtn.innerText = 'Message Sent!';
+                    submitBtn.style.backgroundColor = '#3ECF8E'; // Success Green (Supabase color)
+                    submitBtn.style.color = '#fff';
+                    submitBtn.style.border = '1px solid #3ECF8E';
+                    contactForm.reset();
+
+                    // Reset button after 5 seconds
+                    setTimeout(() => {
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.backgroundColor = ''; // Revert to default
+                        submitBtn.style.color = '';
+                        submitBtn.style.border = '';
+                    }, 5000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    submitBtn.innerText = 'Error! Try Again.';
+                    submitBtn.style.backgroundColor = '#ef4444'; // Red
+                    submitBtn.style.border = '1px solid #ef4444';
+
+                    setTimeout(() => {
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.backgroundColor = '';
+                        submitBtn.style.border = '';
+                    }, 3000);
+                });
+        });
+    }
+
     // Custom Project Card Animation (Intersection Observer)
     // Disabled for Sticky Stack Layout
     /*
